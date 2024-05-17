@@ -45,6 +45,19 @@
               </li>
               <!-- Ajoutez d'autres liens au besoin -->
             </ul>
+            <div class="navbar-nav ms-auto mb-2 mb-lg-8">
+                @auth
+                    {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                    <form class="nav-item"action=">{{ route('auth.logout') }}"method="post">
+                        @method("delete")
+                        @csrf
+                        <button class="nav-link">Se déconnecter</button>
+                    </form>
+                @endauth
+                @guest
+                    <a href="{{ route('auth.login') }}">Se connecter</a>
+                @endguest
+            </div>
           </div>
         </div>
       </nav>
@@ -52,7 +65,13 @@
 
 
    <div class="container">
-        @yield('content')
+    @if (session('success'))
+    <div class="alert alert-success">
+            {{ session('success') }}
+
+        </div>
+    @endif
+    @yield('content')
    </div>
 
 
